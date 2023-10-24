@@ -31,26 +31,19 @@
 
 Возьмем как пример, класс BookService, который зависит от репозитория BookRepository, и мы хотим проверить, что метод addBook() вызывается с определенными аргументами, мы можем создать мок-объект BookRepository и настроить его на возврат ожидаемых значений. Затем мы вызываем метод addBook() на объекте BookService и используем методы verify() и ArgumentCaptor() для проверки, что метод был вызван с нужными параметрами:
 
-
-
 @Test
+
 public void testAddBook() {
-    // Создаем мок-объект BookRepository
     BookRepository bookRepository = Mockito.mock(BookRepository.class);
-
-    // Создаем объект BookService с использованием мок-объекта
     BookService bookService = new BookService(bookRepository);
-
-    // Вызываем метод addBook() на объекте BookService
     bookService.addBook("1234567890", "Java Programming", "John Doe");
-
-    // Проверяем, что метод addBook() был вызван на мок-объекте BookRepository с нужными параметрами
     ArgumentCaptor<Book> argument = ArgumentCaptor.forClass(Book.class);
     Mockito.verify(bookRepository).addBook(argument.capture());
     assertEquals("1234567890", argument.getValue().getISBN());
     assertEquals("Java Programming", argument.getValue().getTitle());
     assertEquals("John Doe", argument.getValue().getAuthor());
 }
+
 В этом коде мы создаем мок-объект BookRepository и настраиваем его на возврат ожидаемых значений. Затем мы вызываем метод addBook() на объекте BookService с определенными аргументами. Используя методы verify() и ArgumentCaptor(), мы проверяем, что метод addBook() был вызван на мок-объекте BookRepository с нужными параметрами.
 
 
@@ -77,20 +70,18 @@ public void testAddBook() {
 
 
 @Test
+
 public void testGetDataFromExternalAPI() {
     // Создаем мок для внешнего API
     ExternalAPI externalAPI = Mockito.mock(ExternalAPI.class);
-
     // Настраиваем мок на ожидаемый вызов метода и возвращение заданного значения
     Mockito.when(externalAPI.getData()).thenReturn("Test data");
-
     // Создаем объект, который зависит от внешнего API
     DataProcessor dataProcessor = new DataProcessor(externalAPI);
-
     // Вызываем метод, который использует внешнее API
     String result = dataProcessor.processData();
-
     // Проверяем, что результат равен ожидаемому значению
     assertEquals("Test data processed", result);
 }
+
 В этом примере мы создаем мок для внешнего API с использованием Mockito и настраиваем его на ожидаемый вызов метода getData() и возвращение значения "Test data". Затем мы создаем объект DataProcessor, который зависит от внешнего API, и вызываем метод processData(). Используя метод assertEquals(), мы проверяем, что результат равен ожидаемому значению.
